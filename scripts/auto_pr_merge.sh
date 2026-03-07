@@ -3,6 +3,9 @@
 
 set -e
 
+# ghコマンドが不正な環境変数を読み込まないようにクリア
+unset GITHUB_TOKEN
+
 # 現在の最大PR番号を取得
 HIGHEST_NUM=0
 if [ -d "docs" ]; then
