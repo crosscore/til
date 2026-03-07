@@ -4,13 +4,13 @@ GitHubの称号（Achievement）を計画的に収集するための実験リポ
 
 ## 🎯 進捗
 
-| 称号 | 条件 | 状態 |
-|------|------|------|
-| 🏹 Quickdraw | Issueを5分以内にClose | ⬜ |
-| 🧬 YOLO | レビューなしでPRをマージ | ⬜ |
-| 👥 Pair Extraordinaire | Co-authoredコミット | ⬜ |
-| 🦈 Pull Shark | PRを2件マージ | ⬜ |
-| 🦈🦈 Pull Shark ×2 | PRを16件マージ | ⬜ |
+| 称号 | 条件 | 状態 | 詳細 |
+|------|------|------|------|
+| 🏹 Quickdraw | Issueを5分以内にClose | ✅ | Issue #1 をClose |
+| 🧬 YOLO | レビューなしでPRをマージ | ✅ | PR #2 をレビューなしでマージ |
+| 👥 Pair Extraordinaire | Co-authoredコミット | ⬜ | - |
+| 🦈 Pull Shark | PRを2件マージ | ✅ | PR #2 + #3 をマージ |
+| 🦈🦈 Pull Shark ×2 | PRを16件マージ | ⬜ | 残り14件 |
 
 ## 📋 ルール
 
