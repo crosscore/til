@@ -8,9 +8,11 @@ GitHubの称号（Achievement）を計画的に収集するための実験リポ
 |------|------|------|------|
 | 🏹 Quickdraw | Issueを5分以内にClose | ✅ | Issue #1 をClose |
 | 🧬 YOLO | レビューなしでPRをマージ | ✅ | PR #2 をレビューなしでマージ |
-| 👥 Pair Extraordinaire | Co-authoredコミット | ⬜ | - |
+| 👥 Pair Extraordinaire | Co-authoredコミット | ✅ | PR #4 で獲得 |
 | 🦈 Pull Shark | PRを2件マージ | ✅ | PR #2 + #3 をマージ |
-| 🦈🦈 Pull Shark ×2 | PRを16件マージ | ⬜ | 残り14件 |
+| 🦈🦈 Pull Shark ×2 | PRを16件マージ | ✅ | スクリプトで PR #4 〜 #17 をマージ (Bronze) |
+| 🦈🦈🦈 Pull Shark ×3 | PRを128件マージ | ⬜ | 残り111件 (Silver) |
+| 🦈🦈🦈🦈 Pull Shark ×4 | PRを1024件マージ | ⬜ | 残り1007件 (Gold) |
 
 ## 📋 ルール
 
