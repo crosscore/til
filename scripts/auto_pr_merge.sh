@@ -58,9 +58,9 @@ for i in $(seq $START $END); do
   git checkout main
   git pull origin main
   
-  echo "✅ PR #${i} 完了！次のPRまで30秒待機します..."
-  # APIレートリミット対策で30秒待機
-  sleep 30
+  echo "✅ PR #${i} 完了！次のPRまで15秒待機します..."
+  # APIレートリミット対策で15秒待機
+  sleep 15
 done
 
 echo "🎉 ${END}件のPRの作成とマージが完了しました！"
