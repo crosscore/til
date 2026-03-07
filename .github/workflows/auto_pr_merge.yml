@@ -1,0 +1,91 @@
+name: Auto PR Merge for Pull Shark
+
+on:
+  schedule:
+    # Run every 15 minutes
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+    # Allow manual triggering
+
+jobs:
+  auto-pr-merge:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Determine next PR number and create branch
+        id: create_pr
+        run: |
+          # Find the highest existing PR doc number
+          HIGHEST_NUM=0
+          if [ -d "docs" ]; then
+            for file in docs/pr-*.md; do
+              if [ -f "$file" ]; then
+                # Extract number from filename (e.g., docs/pr-17.md -> 17)
+                num=$(basename "$file" | sed 's/pr-//' | sed 's/\.md//')
+                if [[ "$num" =~ ^[0-9]+$ ]] && [ "$num" -gt "$HIGHEST_NUM" ]; then
+                  HIGHEST_NUM=$num
+                fi
+              fi
+            done
+          fi
+          
+          NEXT_NUM=$((HIGHEST_NUM + 1))
+          
+          # Stop if we reached 128
+          if [ "$NEXT_NUM" -gt 128 ]; then
+            echo "Reached 128 PRs. Stopping automation."
+            echo "should_continue=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          echo "Next PR number will be $NEXT_NUM"
+          echo "next_num=$NEXT_NUM" >> $GITHUB_OUTPUT
+          echo "should_continue=true" >> $GITHUB_OUTPUT
+          
+          # Create and checkout new branch
+          BRANCH_NAME="feat/pr-${NEXT_NUM}-pull-shark"
+          git checkout -b "$BRANCH_NAME"
+          
+          # Create commit
+          mkdir -p docs
+          echo "This is PR #${NEXT_NUM} for Pull Shark achievement (Silver tier)." > "docs/pr-${NEXT_NUM}.md"
+          
+          git add "docs/pr-${NEXT_NUM}.md"
+          git commit -m "feat: add PR test doc ${NEXT_NUM}"
+          
+          # Push branch
+          git push origin "$BRANCH_NAME"
+
+      - name: Create and Merge Pull Request
+        if: steps.create_pr.outputs.should_continue == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NEXT_NUM: ${{ steps.create_pr.outputs.next_num }}
+        run: |
+          BRANCH_NAME="feat/pr-${NEXT_NUM}-pull-shark"
+          
+          # Create PR
+          gh pr create \
+            --title "feat: PR ${NEXT_NUM} for achievements" \
+            --body "Automated PR to get Pull Shark achievement (Silver tier)" \
+            --base main \
+            --head "$BRANCH_NAME"
+            
+          # Wait a few seconds for GitHub to process the PR creation
+          sleep 5
+          
+          # Merge PR
+          gh pr merge "$BRANCH_NAME" --merge --admin --delete-branch
